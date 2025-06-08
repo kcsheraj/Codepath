@@ -129,4 +129,26 @@ print(f"Test case n = {n}: {hulk_smash(n)}")  # Expected: ["1", "2", "Hulk", "4"
 # character at the ith position in message moves to index indices[i] in the shuffled string.
 
 def shuffle(message, indices):
-    wordlist = [len(message)] 
+    result = [''] * len(message)  # create a list of the same length
+    for i in range(len(message)):
+        result[indices[i]] = message[i]
+    return ''.join(result)
+
+print("---------------PROBLEM 3---------------")
+
+message = "evil"
+indices = [3, 1, 2, 0]
+print(f"Test case message = '{message}', indices = {indices}: {shuffle(message, indices)}")  # Expected: "lvie"
+
+message = "findme"
+indices = [0, 1, 2, 3, 4, 5]
+print(f"Test case message = '{message}', indices = {indices}: {shuffle(message, indices)}")  # Expected: "findme"
+
+message = "batman"
+indices = [5, 4, 3, 2, 1, 0]
+print(f"Test case message = '{message}', indices = {indices}: {shuffle(message, indices)}")  # Expected: "namtab"
+
+message = "superman"
+indices = [7, 6, 5, 4, 3, 2, 1, 0]
+print(f"Test case message = '{message}', indices = {indices}: {shuffle(message, indices)}")  # Expected: "namrepus"
+
