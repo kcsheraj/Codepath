@@ -35,17 +35,21 @@
 
 
 def transpose(matrix):
-    result = []
-    width = 0
+    ansArr = []
+    origRows = len(matrix)
+    origCols = len(matrix[0])
 
-    while width < len(matrix[0]):
-        r = []
-        for m in matrix:
-            r.append(m[width])
+    for r in range(origCols):
+        newRow = []
+        for c in range(origRows):
+            newRow.append(matrix[c][r])
 
-        result.append(r)
-        width += 1
-    return result
+        ansArr.append(newRow)
+        
+
+    return ansArr
+
+
 
 
 # Test case 1: 3x3 matrix
