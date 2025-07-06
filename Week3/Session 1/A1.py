@@ -222,6 +222,206 @@ def arrange_attendees_by_priority(attendees, priority):
 # [1,-1]
 
 
+from collections import deque
+
 def rearrange_guests(guests):
 
-    return None
+    ansArr = []
+
+    pos = deque()
+    neg = deque()
+
+    for num in guests:
+        if num >= 0:
+            pos.append(num)
+        else:
+            neg.append(num)
+        
+    while pos and neg:
+        ansArr.append(pos.popleft())
+        ansArr.append(neg.popleft())
+
+    while pos:
+        ansArr.append(pos.popleft())
+
+    while neg:
+        ansArr.append(neg.popleft())
+
+    return ansArr
+
+print("------PROBLEM 4 TEST CASES------")
+
+# Test case 1: Example from prompt
+guests1 = [3, 1, -2, -5, 2, -4]
+print(f"Test case 1: {guests1} -> {rearrange_guests(guests1)}")  # Expected: [3, -2, 1, -5, 2, -4]
+
+# Test case 2: Example from prompt (only one attendee and one absence)
+guests2 = [-1, 1]
+print(f"Test case 2: {guests2} -> {rearrange_guests(guests2)}")  # Expected: [1, -1]
+
+# Test case 3: Already arranged
+guests3 = [1, -1, 2, -2]
+print(f"Test case 3: {guests3} -> {rearrange_guests(guests3)}")  # Expected: [1, -1, 2, -2]
+
+# Test case 4: Reverse order
+guests4 = [-2, 2, -1, 1]
+print(f"Test case 4: {guests4} -> {rearrange_guests(guests4)}")  # Expected: [2, -2, 1, -1]
+
+# Test case 5: Single attendee
+guests5 = [42]
+print(f"Test case 5: {guests5} -> {rearrange_guests(guests5)}")  # Expected: [42]
+
+# Test case 6: Empty list
+guests6 = []
+print(f"Test case 6: {guests6} -> {rearrange_guests(guests6)}")  # Expected: []
+
+# Test case 7: Consecutive attendees and absences
+guests7 = [1, 2, 3, -1, -2, -3]
+print(f"Test case 7: {guests7} -> {rearrange_guests(guests7)}")  # Expected: [1, -1, 2, -2, 3, -3]
+
+
+
+# Problem 5: Minimum Changes to Make Schedule Balanced
+# You are organizing a series of events, and each event is represented by a parenthesis in the string schedule, where an opening parenthesis ( represents the start of an event, and a closing parenthesis ) represents the end of an event. A balanced schedule means every event that starts has a corresponding end.
+
+# However, due to some scheduling issues, the current schedule might not be balanced. In one move, you can insert either a start or an end at any position in the schedule.
+
+# Return the minimum number of moves required to make the schedule balanced.
+
+# def min_changes_to_make_balanced(schedule):
+#   pass
+# Example Usage:
+
+# print(min_changes_to_make_balanced("())"))
+# print(min_changes_to_make_balanced("(((")) 
+# Example Output:
+
+# 1
+# 3
+
+
+def min_changes_to_make_balanced(schedule):
+
+    numOp = 0
+    stack = []
+
+    for bracket in schedule:
+        if bracket == '(':
+            stack.append('(')
+        else:
+            if len(stack) == 0:
+                numOp += 1
+            else:
+                stack.pop()
+    
+    if stack:
+        numOp += len(stack)
+
+    return numOp
+
+print("------PROBLEM 5 TEST CASES------")
+
+# Test case 1: Example from prompt
+schedule1 = "())"
+print(f"Test case 1: {schedule1} -> {min_changes_to_make_balanced(schedule1)}")  # Expected: 1
+
+# Test case 2: Example from prompt
+schedule2 = "((("
+print(f"Test case 2: {schedule2} -> {min_changes_to_make_balanced(schedule2)}")  # Expected: 3
+
+# Test case 3: Already balanced
+schedule3 = "()()"
+print(f"Test case 3: {schedule3} -> {min_changes_to_make_balanced(schedule3)}")  # Expected: 0
+
+# Test case 4: All closing
+schedule4 = "))))"
+print(f"Test case 4: {schedule4} -> {min_changes_to_make_balanced(schedule4)}")  # Expected: 4
+
+# Test case 5: All opening
+schedule5 = "(((("
+print(f"Test case 5: {schedule5} -> {min_changes_to_make_balanced(schedule5)}")  # Expected: 4
+
+# Test case 6: Alternating, needs one change
+schedule6 = "(()))("
+print(f"Test case 6: {schedule6} -> {min_changes_to_make_balanced(schedule6)}")  # Expected: 2
+
+# Test case 7: Empty string
+schedule7 = ""
+print(f"Test case 7: '{schedule7}' -> {min_changes_to_make_balanced(schedule7)}")  # Expected: 0
+
+
+
+
+# Problem 6: Marking the Event Timeline
+# You are organizing a large event, and you need to mark the timeline for a series of scheduled activities.
+
+# You are given two strings:
+
+# event: A short string representing an event name.
+# timeline: A longer string representing the full timeline for the event.
+# Initially, the timeline is empty and represented by a string t of the same length as timeline, where every character is '?'.
+
+# In one turn, you can "mark" the timeline by placing the event string over any valid position in t and copying its letters onto t. This replaces the corresponding '?' characters in t.
+
+# Rules:
+
+# You can only place event where it fully fits within t.
+# Each time you mark the timeline, the corresponding letters in t are updated.
+# Your goal is to perform a sequence of marks so that t becomes exactly equal to timeline.
+# You may use at most 10 * len(timeline) marks.
+# Return a list of the starting indices where you placed the event string during each mark. If it is impossible to turn t into timeline following these rules, return an empty list.
+
+# def mark_event_timeline(event, timeline):
+#   pass
+# Example Usage:
+
+# print(mark_event_timeline("abc", "ababc"))  
+# print(mark_event_timeline("abca", "aabcaca")) 
+# Example Output:
+
+# [0, 2]
+# [3, 0, 1]
+# Explanation
+
+# For "ababc":
+
+# Start with t = "?????"
+# Place "abc" at index 0 → t = "abc??"
+# Place "abc" at index 2 → t = "ababc" — timeline is complete.
+
+# timeline - ababc
+# abc??
+# ?abc?
+# ??abc
+
+# def mark_event_timeline(event, timeline):
+
+#     t = "?" * len(timeline)
+
+#     queue = deque()
+
+#     queue.append((t,[]))
+
+#     while queue:
+#         tupleElement = queue.popleft()
+        
+#         currTState = tupleElement[0]
+
+#         for i in range(len(currTState)-len(event) + 1):
+#             temp = currTState
+
+#             for j in range(i, i+len(event)):
+#                 temp[j] = event[j-i]
+            
+
+
+
+
+
+
+
+
+
+#     return None
+
+# mark_event_timeline("abc", "ababc")
